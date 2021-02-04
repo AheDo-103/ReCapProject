@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.InMemory
 {
@@ -43,6 +44,16 @@ namespace DataAccess.Concrete.InMemory
             return _cars.Where(x => x.CarId == carId).FirstOrDefault();
         }
 
+        public IEnumerable<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Car Get(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Add(Car car)
         {
             _cars.Add(car);
@@ -67,6 +78,16 @@ namespace DataAccess.Concrete.InMemory
             carToUpdate.ColorId = car.ColorId;
             carToUpdate.DailyPrice = car.DailyPrice;
             carToUpdate.Description = car.Description;
+        }
+
+        public IEnumerable<Car> GetAllByColorId(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Car> GetAllByBrandId(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

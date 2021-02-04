@@ -3,62 +3,64 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-        ICarDal _carDal;
+        private ICarDal _carDal;
+
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
         }
 
-        public List<Car> GetCars()
+        public List<Car> GetAll()
         {
-            return _carDal.GetCars();
+            return _carDal.GetAll().ToList();
+        }
+        
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter)
+        {
+            return _carDal.GetAll(filter).ToList();
         }
 
-        public List<Car> GetCars(Func<Car, bool> filter)
+        public List<Car> GetAllByBrandId(int brandId)
         {
-            return _carDal.GetCars(filter);
+            return _carDal.GetAll(x => x.BrandId == brandId).ToList();
         }
 
-        public Car GetCarById(int carId)
+        public List<Car> GetAllByColorId(int colorId)
         {
-            return _carDal.GetCarById(carId);
+            return _carDal.GetAll(x => x.ColorId == colorId).ToList();
         }
 
-        public bool Add(Car car)
+        public Car Get(int id)
         {
-            // Validation
-            if (car.BrandId <= 0 || car.ColorId <= 0 || car.DailyPrice <= 0) return false;
-            _carDal.Add(car);
+            return _carDal.Get(x => x.CarId == id);
+        }
+
+        public bool Insert(Car entity)
+        {
+            if (entity.CarName.Length <= 2 || entity.DailyPrice < 0)
+                return false;
+            _carDal.Add(entity);
             return true;
         }
 
-        public bool Update(Car car)
+        public bool Update(Car entity)
         {
-            // Validation
-            if (car.BrandId <= 0 || car.ColorId <= 0 || car.DailyPrice <= 0) return false;
-            _carDal.Update(car);
+            if (entity.CarName.Length <= 2 || entity.DailyPrice < 0)
+                return false;
+            _carDal.Update(entity);
             return true;
         }
 
-        public bool Delete(Car car)
+        public void Delete(Car entity)
         {
-            if (car.CarId <= 0) return false;
-            _carDal.Delete(car);
-            return true;
-        }
-
-        public bool Delete(List<Car> cars)
-        {
-            foreach (var car in cars)
-                if (car.CarId <= 0)
-                    return false;
-            _carDal.Delete(cars);
-            return true;
+            _carDal.Delete(entity);
         }
     }
 }

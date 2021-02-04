@@ -1,17 +1,13 @@
 ﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Business.Abstract
 {
-    public interface ICarService
+    public interface ICarService : IBaseBll<Car>
     {
-        List<Car> GetCars();
-        List<Car> GetCars(Func<Car, bool> filter);
-        Car GetCarById(int carId);
-        bool Add(Car car);
-        bool Update(Car car);
-        bool Delete(Car car);
-        bool Delete(List<Car> cars);
+        List<Car> GetAllByBrandId(int brandId);
+        List<Car> GetAllByColorId(int colorId);
     }
 }

@@ -1,17 +1,13 @@
 ﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace DataAccess.Abstract
 {
-    public interface ICarDal
+    public interface ICarDal : IEntityRepository<Car>
     {
-        List<Car> GetCars();
-        List<Car> GetCars(Func<Car, bool> filter);
-        Car GetCarById(int carId);
-        void Add(Car car);
-        void Update(Car car);
-        void Delete(Car car);
-        void Delete(List<Car> cars);
+        IEnumerable<Car> GetAllByColorId(Expression<Func<Car, bool>> filter);
+        IEnumerable<Car> GetAllByBrandId(Expression<Func<Car, bool>> filter);
     }
 }
